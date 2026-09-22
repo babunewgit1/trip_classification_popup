@@ -1,0 +1,342 @@
+
+Group Charter Popup
+
+Group Charter Popup
+
+Add
+
+Add
+
+Labels
+
+Dates
+
+Checklist
+
+Attachment
+Members
+
+
+
+Description
+Edit
+Show a popup to the user when a group charter request trip_classification = group <> have 19 or more passengers on Jettly.
+
+group charter aircraft are for flights with more than 19 people onboard, however, many people are requesting trips with less than 19 passengers.
+
+ 
+
+Header:
+Group Charter May Not Be the Best Fit
+
+Text:
+Group charter aircraft are generally intended for larger groups of 19 or more passengers.
+
+Since your trip currently has fewer than 19 passengers, you may have more aircraft options, better availability, and potentially better pricing by selecting a private jet category instead.
+
+Primary button:
+View Private Jet Options
+
+Secondary button:
+
+Continue Anyway
+
+ 
+
+WHEN USER CLICK PRIMARY BUTTON, SET STATE BACK TO ‘airplane’ CLASSIFICATION + LOAD SEARCH RESULTS AS ‘airplane’ CLASSIFICATION
+
+WHEN USER CLICK ‘CONTINUE ANYWAY’ allow them to continue under group charter anyway.
+===========================
+
+
+Airplane / Private Jet → Large Passenger Count Popup
+
+Airplane / Private Jet → Large Passenger Count Popup
+
+Add
+
+Add
+
+Labels
+
+Dates
+
+Checklist
+
+Attachment
+Members
+
+
+
+Description
+Edit
+Trigger:
+trip_classification = Airplane
+AND
+Total Passengers >= 19
+
+Header:
+Traveling With 19+ Passengers?
+
+Text:
+Your passenger count may be better suited to a Group Charter aircraft.
+
+Group Charter provides access to larger aircraft specifically configured for groups of 19 or more passengers and may provide more suitable aircraft availability and pricing for your trip.
+
+You can switch to Group Charter or continue searching private jet options.
+
+Primary button:
+View Group Charter Options
+
+Secondary button:
+Continue With Private Jet
+
+Workflow:
+Primary → change trip_classification to Group Charter and continue search.
+Secondary → dismiss popup and continue with Airplane.
+
+
+=========================
+
+
+VIP Airliner → Small Passenger Count Popup
+
+VIP Airliner → Small Passenger Count Popup
+
+Add
+
+Add
+
+Labels
+
+Dates
+
+Checklist
+
+Attachment
+Members
+
+
+
+Description
+Edit
+Trigger:
+trip_classification = VIP Airliner
+AND
+Total Passengers < 10
+
+Header:
+A Private Jet May Be a Better Fit
+
+Text:
+VIP Airliners are typically selected for larger groups or missions requiring exceptionally large cabins and specialized configurations.
+
+For a smaller group, a Heavy or Ultra Long Range private jet may provide significantly more aircraft options while still offering a large cabin and long-range capability.
+
+You can switch to private jet options or continue with your VIP Airliner request.
+
+Primary button:
+View Private Jet Options
+
+Secondary button:
+Continue With VIP Airliner
+
+Workflow:
+Primary → change trip_classification to Airplane.
+Secondary → dismiss and continue.
+
+I’d use under 10 PAX, not 19, because there are legitimate BBJ/ACJ requests with relatively few passengers.
+
+
+
+=================
+
+
+Helicopter → High Passenger Count Popup
+
+Helicopter → High Passenger Count Popup
+
+Add
+
+Add
+
+Labels
+
+Dates
+
+Checklist
+
+Attachment
+Members
+
+
+
+Description
+Edit
+Trigger:
+trip_classification = Helicopter
+AND
+Total Passengers > 8
+
+Header:
+Multiple Helicopters May Be Required
+
+Text:
+Many charter helicopters accommodate smaller passenger groups.
+
+With your current passenger count, your trip may require multiple helicopters depending on aircraft availability, routing and luggage requirements.
+
+You can continue requesting helicopter options or search private aircraft instead.
+
+Primary button:
+Continue With Helicopter
+
+Secondary button:
+View Private Jet Options
+
+Workflow:
+Primary → dismiss and continue.
+Secondary → change trip_classification to Airplane.
+
+I would not hard-block this because larger helicopters do exist.
+
+
+===================
+
+
+Cargo → Passenger Count Entered Popup
+
+Cargo → Passenger Count Entered Popup
+
+Add
+
+Add
+
+Labels
+
+Dates
+
+Checklist
+
+Attachment
+Members
+
+
+
+Description
+Edit
+Trigger:
+trip_classification = Cargo
+AND
+Total Passengers > 0
+
+Header:
+Is This a Cargo Flight?
+
+Text:
+Cargo aircraft are primarily used for transporting freight rather than passengers.
+
+If your request is for passenger travel, select Private Jet or Group Charter instead. If you are transporting cargo and the passenger count represents accompanying personnel, you can continue with your request.
+
+Primary button:
+Continue With Cargo
+
+Secondary button:
+View Passenger Aircraft
+
+Workflow:
+Primary → dismiss and continue.
+Secondary → change to Airplane or return them to the aircraft-type selector.
+
+I would not automatically block Cargo with PAX > 0, because some cargo missions can include authorized accompanying personnel.
+
+==================
+
+Group Charter → Small Passenger Count Popup
+
+Group Charter → Small Passenger Count Popup
+
+Add
+
+Add
+
+Labels
+
+Dates
+
+Checklist
+
+Attachment
+Members
+
+
+
+Description
+Edit
+Trigger:
+trip_classification = Group Charter
+AND
+Total Passengers < 19
+
+Header:
+Group Charter May Not Be the Best Fit
+
+Text:
+Group Charter aircraft are generally intended for larger groups of 19 or more passengers.
+
+Since your trip currently has fewer than 19 passengers, you may have more aircraft options, better availability and potentially better pricing by selecting a private jet instead.
+
+You can still continue with a Group Charter request if you prefer.
+
+Primary button:
+View Private Jet Options
+
+Secondary button:
+Continue With Group Charter
+
+===================
+
+
+Medevac → Don't Restrict Based on Passenger Count Popup
+
+Medevac → Don't Restrict Based on Passenger Count Popup
+
+Add
+
+Add
+
+Labels
+
+Dates
+
+Checklist
+
+Attachment
+Members
+
+
+
+Description
+Edit
+Trigger:
+trip_classification changes to Medevac
+
+Show it once per search/session.
+
+Header:
+Medical Transport Request
+
+Text:
+Medevac flights are specially arranged for passengers requiring medical transportation, medical equipment or in-flight medical assistance.
+
+To help us identify the appropriate aircraft and medical configuration, please provide the patient's transportation requirements with your request.
+
+Primary button:
+Continue With Medevac
+
+Secondary button:
+Choose Another Aircraft Type
+
+ 
+
+Don't try to determine whether Medevac is appropriate from passenger count.
