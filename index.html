@@ -480,5 +480,43 @@ Remarketing tags may not be associated with personally identifiable information 
          })();
       </script>
       <!-- End Of Intercom Code -->
+
+      <!-- ===== Trip Classification Popup ===== -->
+      <div id="tc_popup_overlay" class="tc_popup_overlay">
+         <div class="tc_popup_box">
+            <div class="tc_popup_topbar">
+               <span
+                  id="tc_popup_topbar_title"
+                  class="tc_popup_topbar_title"
+               ></span>
+               <button id="tc_popup_close" class="tc_popup_close">
+                  &times;
+               </button>
+            </div>
+            <div class="tc_popup_icon">
+               <div class="tc_popup_icon_ring">
+                  <img
+                     id="tc_popup_icon_img"
+                     class="tc_popup_icon_img"
+                     src=""
+                     alt="icon"
+                  />
+               </div>
+            </div>
+            <h3 id="tc_popup_header" class="tc_popup_header"></h3>
+            <p id="tc_popup_bold_text" class="tc_popup_bold_text"></p>
+            <div id="tc_popup_paragraphs" class="tc_popup_paragraphs"></div>
+            <div class="tc_popup_buttons">
+               <button
+                  id="tc_popup_primary"
+                  class="tc_popup_btn tc_popup_btn_primary"
+               ></button>
+               <button
+                  id="tc_popup_secondary"
+                  class="tc_popup_btn tc_popup_btn_secondary"
+               ></button>
+            </div>
+         </div>
+      </div>
    </body>
 </html>

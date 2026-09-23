@@ -5,48 +5,89 @@
 
    var tcPopupConfig = {
       groupLow: {
-         header: "Group Charter May Not Be the Best Fit",
-         text: "Group Charter aircraft are generally intended for larger groups of 19 or more passengers.\n\nSince your trip currently has fewer than 19 passengers, you may have more aircraft options, better availability and potentially better pricing by selecting a private jet instead.\n\nYou can still continue with a Group Charter request if you prefer.",
+         topBar: "Small Passenger Count",
+         icon: "https://cdn.prod.website-files.com/6713759f858863c516dbaa19/6ab3698d5aa44813a15d14a1_tcp1.svg",
+         header:
+            "Group Charter <br /> <span class='hlight'>May Not Be the Best Fit</span>",
+         boldText:
+            "Group charter aircraft are generally intended for larger groups of 19 or more passengers.",
+         paragraphs: [
+            "Since your trip currently has fewer than 19 passengers, you may have more aircraft options, better availability and potentially better pricing by selecting a private jet instead.",
+            "You can still continue with a Group Charter request if you prefer.",
+         ],
          primaryLabel: "View Private Jet Options",
          secondaryLabel: "Continue With Group Charter",
          primaryAction: "airplane",
          secondaryAction: null,
       },
       airplaneHigh: {
-         header: "Traveling With 19+ Passengers?",
-         text: "Your passenger count may be better suited to a Group Charter aircraft.\n\nGroup Charter provides access to larger aircraft specifically configured for groups of 19 or more passengers and may provide more suitable aircraft availability and pricing for your trip.\n\nYou can switch to Group Charter or continue searching private jet options.",
+         topBar: "Large Passenger Count",
+         icon: "",
+         header: "<strong>Traveling With</strong><br>19+ Passengers?",
+         boldText:
+            "Group charter aircraft are generally intended for larger groups of 19 or more passengers.",
+         paragraphs: [
+            "Since your trip currently has fewer than 19 passengers, you may have more aircraft options, better availability and potentially better pricing by selecting a private jet instead.",
+            "You can still continue with a Group Charter request if you prefer.",
+         ],
          primaryLabel: "View Group Charter Options",
          secondaryLabel: "Continue With Private Jet",
          primaryAction: "group",
          secondaryAction: null,
       },
       vipLow: {
-         header: "A Private Jet May Be a Better Fit",
-         text: "VIP Airliners are typically selected for larger groups or missions requiring exceptionally large cabins and specialized configurations.\n\nFor a smaller group, a Heavy or Ultra Long Range private jet may provide significantly more aircraft options while still offering a large cabin and long-range capability.\n\nYou can switch to private jet options or continue with your VIP Airliner request.",
+         topBar: "Small Passenger Count",
+         icon: "",
+         header: "<strong>A Private Jet</strong><br>May Be a Better Fit",
+         boldText:
+            "VIP Airliners are typically selected for larger groups or missions requiring exceptionally large cabins and specialized configurations.",
+         paragraphs: [
+            "For a smaller group, a Heavy or Ultra Long Range private jet may provide significantly more aircraft options while still offering a large cabin and long-range capability.",
+            "You can switch to private jet options or continue with your VIP Airliner request.",
+         ],
          primaryLabel: "View Private Jet Options",
          secondaryLabel: "Continue With VIP Airliner",
          primaryAction: "airplane",
          secondaryAction: null,
       },
       helicopterHigh: {
-         header: "Multiple Helicopters May Be Required",
-         text: "Many charter helicopters accommodate smaller passenger groups.\n\nWith your current passenger count, your trip may require multiple helicopters depending on aircraft availability, routing and luggage requirements.\n\nYou can continue requesting helicopter options or search private aircraft instead.",
+         topBar: "High Passenger Count",
+         icon: "",
+         header: "<strong>Multiple Helicopters</strong><br>May Be Required",
+         boldText:
+            "Many charter helicopters accommodate smaller passenger groups.",
+         paragraphs: [
+            "With your current passenger count, your trip may require multiple helicopters depending on aircraft availability, routing and luggage requirements.",
+            "You can continue requesting helicopter options or search private aircraft instead.",
+         ],
          primaryLabel: "Continue With Helicopter",
          secondaryLabel: "View Private Jet Options",
          primaryAction: null,
          secondaryAction: "airplane",
       },
       cargoPax: {
-         header: "Is This a Cargo Flight?",
-         text: "Cargo aircraft are primarily used for transporting freight rather than passengers.\n\nIf your request is for passenger travel, select Private Jet or Group Charter instead. If you are transporting cargo and the passenger count represents accompanying personnel, you can continue with your request.",
+         topBar: "Passenger Count Entered",
+         icon: "",
+         header: "<strong>Is This</strong><br>a Cargo Flight?",
+         boldText:
+            "Cargo aircraft are primarily used for transporting freight rather than passengers.",
+         paragraphs: [
+            "If your request is for passenger travel, select Private Jet or Group Charter instead. If you are transporting cargo and the passenger count represents accompanying personnel, you can continue with your request.",
+         ],
          primaryLabel: "Continue With Cargo",
          secondaryLabel: "View Passenger Aircraft",
          primaryAction: null,
          secondaryAction: "airplane",
       },
       medevacInfo: {
-         header: "Medical Transport Request",
-         text: "Medevac flights are specially arranged for passengers requiring medical transportation, medical equipment or in-flight medical assistance.\n\nTo help us identify the appropriate aircraft and medical configuration, please provide the patient's transportation requirements with your request.",
+         topBar: "Medical Transport",
+         icon: "",
+         header: "<strong>Medical</strong><br>Transport Request",
+         boldText:
+            "Medevac flights are specially arranged for passengers requiring medical transportation, medical equipment or in-flight medical assistance.",
+         paragraphs: [
+            "To help us identify the appropriate aircraft and medical configuration, please provide the patient's transportation requirements with your request.",
+         ],
          primaryLabel: "Continue With Medevac",
          secondaryLabel: "Choose Another Aircraft Type",
          primaryAction: null,
@@ -66,16 +107,41 @@
    function showTcPopup(config, data, proceedCallback, triggerBtn) {
       var overlay = document.getElementById("tc_popup_overlay");
       if (!overlay) return false;
+      var topBarEl = document.getElementById("tc_popup_topbar_title");
+      var closeBtn = document.getElementById("tc_popup_close");
       var headerEl = document.getElementById("tc_popup_header");
-      var textEl = document.getElementById("tc_popup_text");
+      var boldTextEl = document.getElementById("tc_popup_bold_text");
+      var paragraphsEl = document.getElementById("tc_popup_paragraphs");
       var primaryBtn = document.getElementById("tc_popup_primary");
       var secondaryBtn = document.getElementById("tc_popup_secondary");
-      if (!headerEl || !textEl || !primaryBtn || !secondaryBtn) return false;
+      if (!headerEl || !primaryBtn || !secondaryBtn) return false;
 
-      headerEl.textContent = config.header;
-      textEl.textContent = config.text;
+      if (topBarEl) topBarEl.textContent = config.topBar;
+      var iconImg = document.getElementById("tc_popup_icon_img");
+      if (iconImg && config.icon) iconImg.src = config.icon;
+      headerEl.innerHTML = config.header;
+      if (boldTextEl) boldTextEl.textContent = config.boldText;
+
+      // Dynamic paragraphs
+      if (paragraphsEl) {
+         paragraphsEl.innerHTML = "";
+         config.paragraphs.forEach(function (text) {
+            var p = document.createElement("p");
+            p.className = "tc_popup_para";
+            p.textContent = text;
+            paragraphsEl.appendChild(p);
+         });
+      }
+
       primaryBtn.textContent = config.primaryLabel;
       secondaryBtn.textContent = config.secondaryLabel;
+
+      // Close button
+      if (closeBtn) {
+         closeBtn.onclick = function () {
+            hideTcPopup();
+         };
+      }
 
       primaryBtn.onclick = function () {
          if (config.primaryAction && data) {
@@ -108,12 +174,14 @@
       };
 
       overlay.classList.add("tc_active");
+      document.body.style.overflow = "hidden";
       return true;
    }
 
    function hideTcPopup() {
       var overlay = document.getElementById("tc_popup_overlay");
       if (overlay) overlay.classList.remove("tc_active");
+      document.body.style.overflow = "";
    }
 
    function updateRadio(value, triggerBtn) {
