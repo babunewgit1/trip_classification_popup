@@ -22,13 +22,13 @@
       },
       airplaneHigh: {
          topBar: "Large Passenger Count",
-         icon: "",
-         header: "<strong>Traveling With</strong><br>19+ Passengers?",
+         icon: "https://cdn.prod.website-files.com/6713759f858863c516dbaa19/6ab4d3647aa91c7a5c617fc5_tcp2.svg",
+         header: "<span class='hlight'>Traveling With</span> 19+ Passengers?",
          boldText:
-            "Group charter aircraft are generally intended for larger groups of 19 or more passengers.",
+            "Your passenger count may be better suited to a Group Charter aircraft",
          paragraphs: [
-            "Since your trip currently has fewer than 19 passengers, you may have more aircraft options, better availability and potentially better pricing by selecting a private jet instead.",
-            "You can still continue with a Group Charter request if you prefer.",
+            "Group Charter provides access to larger aircraft specifically configured for groups of 19 or more passengers and may provide more suitable aircraft availability and pricing for your trip.",
+            "You can switch to Group Charter or continue searching private jet options.",
          ],
          primaryLabel: "View Group Charter Options",
          secondaryLabel: "Continue With Private Jet",
@@ -37,8 +37,9 @@
       },
       vipLow: {
          topBar: "Small Passenger Count",
-         icon: "",
-         header: "<strong>A Private Jet</strong><br>May Be a Better Fit",
+         icon: "https://cdn.prod.website-files.com/6713759f858863c516dbaa19/6ab4d5e765ae221df8c5eea3_tcp3.svg",
+         header:
+            "A Private Jet <span class='hlight'>May Be a Better Fit</span>",
          boldText:
             "VIP Airliners are typically selected for larger groups or missions requiring exceptionally large cabins and specialized configurations.",
          paragraphs: [
@@ -52,8 +53,9 @@
       },
       helicopterHigh: {
          topBar: "High Passenger Count",
-         icon: "",
-         header: "<strong>Multiple Helicopters</strong><br>May Be Required",
+         icon: "https://cdn.prod.website-files.com/6713759f858863c516dbaa19/6ab4ddce43d21215d20865bf_tcp4.svg",
+         header:
+            "Multiple Helicopters <span class='hlight'>May Be Required</span>",
          boldText:
             "Many charter helicopters accommodate smaller passenger groups.",
          paragraphs: [
@@ -67,8 +69,8 @@
       },
       cargoPax: {
          topBar: "Passenger Count Entered",
-         icon: "",
-         header: "<strong>Is This</strong><br>a Cargo Flight?",
+         icon: "https://cdn.prod.website-files.com/6713759f858863c516dbaa19/6ab4dececa55419c14460554_tcp5.svg",
+         header: "<span class='hlight'>Is This a</span> Cargo Flight?",
          boldText:
             "Cargo aircraft are primarily used for transporting freight rather than passengers.",
          paragraphs: [
@@ -80,9 +82,9 @@
          secondaryAction: "airplane",
       },
       medevacInfo: {
-         topBar: "Medical Transport",
-         icon: "",
-         header: "<strong>Medical</strong><br>Transport Request",
+         topBar: "Don't Restrict Based on Passenger Count",
+         icon: "https://cdn.prod.website-files.com/6713759f858863c516dbaa19/6ab4e05f6c372c10b110fb9b_tcp6.svg",
+         header: "Medical Transport <span class='hlight'>Request</span>",
          boldText:
             "Medevac flights are specially arranged for passengers requiring medical transportation, medical equipment or in-flight medical assistance.",
          paragraphs: [
