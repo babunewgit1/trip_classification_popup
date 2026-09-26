@@ -106,7 +106,7 @@
       return null;
    }
 
-   function showTcPopup(config, data, proceedCallback, triggerBtn) {
+   function showTcPopup(config, data, proceedCallback, scope) {
       var overlay = document.getElementById("tc_popup_overlay");
       if (!overlay) return false;
       var topBarEl = document.getElementById("tc_popup_topbar_title");
@@ -148,7 +148,7 @@
       primaryBtn.onclick = function () {
          if (config.primaryAction && data) {
             data.trip_classification = config.primaryAction;
-            updateRadio(config.primaryAction, triggerBtn);
+            updateRadio(config.primaryAction, scope);
          }
          hideTcPopup();
          if (proceedCallback && config.primaryAction !== "selector") {
@@ -163,11 +163,11 @@
             data
          ) {
             data.trip_classification = config.secondaryAction;
-            updateRadio(config.secondaryAction, triggerBtn);
+            updateRadio(config.secondaryAction, scope);
          }
          hideTcPopup();
          if (config.secondaryAction === "selector") {
-            updateRadio("airplane", triggerBtn);
+            updateRadio("airplane", scope);
             return;
          }
          if (proceedCallback) {
@@ -186,11 +186,13 @@
       document.body.style.overflow = "";
    }
 
-   function updateRadio(value, triggerBtn) {
-      if (!triggerBtn) return;
-      var scope = triggerBtn.closest(".hmtrip") || document;
-      var radio = scope.querySelector('.aircraft_radio[value="' + value + '"');
-      if (radio) radio.checked = true;
+   function updateRadio(value, scope) {
+      if (!value || !scope) return;
+      scope
+         .querySelectorAll('.aircraft_radio[value="' + value + '"]')
+         .forEach(function (radio) {
+            radio.checked = true;
+         });
    }
 
    function initSearchWidget(root) {
@@ -505,7 +507,7 @@
                         clearStorage();
                         window.location.href = "/aircraft";
                      },
-                     owBtn,
+                     root,
                   )
                ) {
                   return;
@@ -590,7 +592,7 @@
                         clearStorage();
                         window.location.href = "/aircraft";
                      },
-                     rtBtn,
+                     root,
                   )
                ) {
                   return;
@@ -679,7 +681,7 @@
                         clearStorage();
                         window.location.href = "/aircraft";
                      },
-                     mcBtn,
+                     root,
                   )
                ) {
                   return;
@@ -699,7 +701,7 @@
             if (radio.value === "medevac" && !medevacShown) {
                medevacShown = true;
                sessionStorage.setItem("medevacShown", "true");
-               showTcPopup(tcPopupConfig.medevacInfo, null, null, radio);
+               showTcPopup(tcPopupConfig.medevacInfo, null, null, root);
             }
          });
       });
