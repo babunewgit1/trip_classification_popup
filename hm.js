@@ -1,7 +1,14 @@
 // -- popup code start --
 (function () {
    // ── Trip Classification Popup ─────────────────────────────────────────
-   var medevacShown = sessionStorage.getItem("medevacShown") === "true";
+
+   // Session tracking: once a popup is shown for a classification, don't show again
+   function isPopupShown(key) {
+      return sessionStorage.getItem("tc_shown_" + key) === "true";
+   }
+   function markPopupShown(key) {
+      sessionStorage.setItem("tc_shown_" + key, "true");
+   }
 
    var tcPopupConfig = {
       groupLow: {
@@ -98,12 +105,19 @@
    };
 
    function getPopupConfig(type, pax) {
-      if (type === "group" && pax < 19) return tcPopupConfig.groupLow;
-      if (type === "airplane" && pax >= 19) return tcPopupConfig.airplaneHigh;
-      if (type === "vip" && pax < 10) return tcPopupConfig.vipLow;
-      if (type === "helicopter" && pax > 8) return tcPopupConfig.helicopterHigh;
-      if (type === "cargo" && pax > 0) return tcPopupConfig.cargoPax;
-      return null;
+      var cfg = null;
+      var key = null;
+      if (type === "group" && pax < 19) { cfg = tcPopupConfig.groupLow; key = "groupLow"; }
+      else if (type === "airplane" && pax >= 19) { cfg = tcPopupConfig.airplaneHigh; key = "airplaneHigh"; }
+      else if (type === "vip" && pax < 10) { cfg = tcPopupConfig.vipLow; key = "vipLow"; }
+      else if (type === "helicopter" && pax > 8) { cfg = tcPopupConfig.helicopterHigh; key = "helicopterHigh"; }
+      else if (type === "cargo" && pax > 0) { cfg = tcPopupConfig.cargoPax; key = "cargoPax"; }
+      else if (type === "medevac") { cfg = tcPopupConfig.medevacInfo; key = "medevacInfo"; }
+      if (!cfg || !key) return null;
+      // Already shown this session? Skip.
+      if (isPopupShown(key)) return null;
+      cfg._key = key;
+      return cfg;
    }
 
    function showTcPopup(config, data, proceedCallback, scope) {
@@ -174,6 +188,9 @@
             proceedCallback(data);
          }
       };
+
+      // Mark this popup as shown for the session
+      if (config._key) markPopupShown(config._key);
 
       overlay.classList.add("tc_active");
       document.body.style.overflow = "hidden";
@@ -695,16 +712,8 @@
          });
       }
 
-      // ── Medevac: show popup once per session on radio change ────────────
-      root.querySelectorAll(".aircraft_radio").forEach(function (radio) {
-         radio.addEventListener("change", function () {
-            if (radio.value === "medevac" && !medevacShown) {
-               medevacShown = true;
-               sessionStorage.setItem("medevacShown", "true");
-               showTcPopup(tcPopupConfig.medevacInfo, null, null, root);
-            }
-         });
-      });
+      // Medevac popup now triggers on submit (same as other types),
+      // not on radio change. See getPopupConfig() for medevac handling.
    }
 
    // ── Bootstrap ─────────────────────────────────────────────────────────────
