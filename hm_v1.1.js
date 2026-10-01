@@ -1,3 +1,7 @@
+// =========================================================
+//    This is a global js File. it will connect globally
+// =========================================================
+
 // -- popup code start --
 (function () {
    // ── Trip Classification Popup ─────────────────────────────────────────
@@ -107,12 +111,25 @@
    function getPopupConfig(type, pax) {
       var cfg = null;
       var key = null;
-      if (type === "group" && pax < 19) { cfg = tcPopupConfig.groupLow; key = "groupLow"; }
-      else if (type === "airplane" && pax >= 19) { cfg = tcPopupConfig.airplaneHigh; key = "airplaneHigh"; }
-      else if (type === "vip" && pax < 10) { cfg = tcPopupConfig.vipLow; key = "vipLow"; }
-      else if (type === "helicopter" && pax > 8) { cfg = tcPopupConfig.helicopterHigh; key = "helicopterHigh"; }
-      else if (type === "cargo" && pax > 0) { cfg = tcPopupConfig.cargoPax; key = "cargoPax"; }
-      else if (type === "medevac") { cfg = tcPopupConfig.medevacInfo; key = "medevacInfo"; }
+      if (type === "group" && pax < 19) {
+         cfg = tcPopupConfig.groupLow;
+         key = "groupLow";
+      } else if (type === "airplane" && pax >= 19) {
+         cfg = tcPopupConfig.airplaneHigh;
+         key = "airplaneHigh";
+      } else if (type === "vip" && pax < 10) {
+         cfg = tcPopupConfig.vipLow;
+         key = "vipLow";
+      } else if (type === "helicopter" && pax > 8) {
+         cfg = tcPopupConfig.helicopterHigh;
+         key = "helicopterHigh";
+      } else if (type === "cargo" && pax > 0) {
+         cfg = tcPopupConfig.cargoPax;
+         key = "cargoPax";
+      } else if (type === "medevac") {
+         cfg = tcPopupConfig.medevacInfo;
+         key = "medevacInfo";
+      }
       if (!cfg || !key) return null;
       // Already shown this session? Skip.
       if (isPopupShown(key)) return null;
