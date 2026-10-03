@@ -1,0 +1,313 @@
+/*
+==============================================================
+    âœ… result.js for jettly.com
+    âœ… connect will in aircraft page
+==============================================================
+*/
+// select dom element for One way trip
+const addWay = document.querySelector(".sa_way_name");
+const flightWay = document.querySelectorAll(".sa_way_name_list");
+const formIdInput = document.querySelector("input.onewayform");
+const toIdInput = document.querySelector(".onewayto");
+const fromId = document.querySelector(".onewayformid");
+const toId = document.querySelector(".onewaytoid");
+const dateAsText = document.querySelector(".onewaydate");
+const pax = document.querySelector(".onewaypax");
+const searchBox = document.querySelectorAll(".sa_way_search");
+const drpDownCollection = document.querySelectorAll(".from_cl_wrapper");
+const fromShortCode = document.querySelector(".onewayfromshort");
+const toShortCode = document.querySelector(".onewaytoshort");
+
+// getting data form session storage
+const getsessionDate = sessionStorage.getItem("storeData");
+const getstoredData = JSON.parse(getsessionDate);
+
+if (!getstoredData) {
+   window.location.href = `/`;
+}
+
+// show which way had selected by user
+function dropdownList() {
+   document.querySelector(".sa_way").addEventListener("click", () => {
+      const dropdown = document.querySelector(".sa_way_dropdown");
+      if (dropdown.style.display === "block") {
+         dropdown.style.display = "none";
+      } else {
+         dropdown.style.display = "block";
+      }
+   });
+   addWay.textContent = getstoredData.way;
+   flightWay.forEach((flightList) => {
+      flightList.addEventListener("click", () => {
+         addWay.textContent = flightList.textContent;
+         flightList.parentElement.style.display = "none";
+      });
+   });
+}
+
+dropdownList();
+
+// making tab
+flightWay.forEach((item) => {
+   item.addEventListener("click", () => {
+      drpDownCollection.forEach((clItem) => {
+         clItem.style.display = "none";
+      });
+
+      const wayFlightAttr = item.getAttribute("way");
+      searchBox.forEach((search) => {
+         const searchAttr = search.getAttribute("id");
+
+         if (wayFlightAttr === searchAttr) {
+            search.classList.add("active_way");
+         } else {
+            search.classList.remove("active_way");
+         }
+      });
+   });
+});
+
+//active tab with session storage
+if (getstoredData.way === "one way") {
+   searchBox.forEach((item) => {
+      item.classList.remove("active_way");
+      document.getElementById("oneway").classList.add("active_way");
+   });
+} else if (getstoredData.way === "round trip") {
+   searchBox.forEach((item) => {
+      item.classList.remove("active_way");
+      document.getElementById("twoway").classList.add("active_way");
+   });
+} else if (getstoredData.way === "multi-city") {
+   searchBox.forEach((item) => {
+      item.classList.remove("active_way");
+      document.getElementById("threeway").classList.add("active_way");
+   });
+} else {
+   console.error("something error");
+}
+
+//fill input with session storage data for one way
+
+function fillInputOneWay() {
+   if (getstoredData.formIdInput) {
+      formIdInput.value = getstoredData.formIdInput;
+   }
+
+   if (getstoredData.toIdInput) {
+      toIdInput.value = getstoredData.toIdInput;
+   }
+
+   if (getstoredData.fromId) {
+      fromId.textContent = getstoredData.fromId;
+   }
+
+   if (getstoredData.toId) {
+      toId.textContent = getstoredData.toId;
+   }
+
+   if (getstoredData.fromShortName) {
+      fromShortCode.textContent = getstoredData.fromShortName;
+   }
+
+   if (getstoredData.toShortName) {
+      toShortCode.textContent = getstoredData.toShortName;
+   }
+
+   if (getstoredData.dateAsText) {
+      dateAsText.value = getstoredData.dateAsText;
+   }
+
+   if (getstoredData.pax) {
+      pax.value = getstoredData.pax;
+   }
+}
+
+//fill input with session storage data for roundTrip
+const roundFrom = document.querySelector(".rfrom");
+const roundTo = document.querySelector(".rto");
+const roundDepDate = document.querySelector(".rdepdate");
+const roundRetDate = document.querySelector(".rretdate");
+const roundPax = document.querySelector(".rpax");
+const roundFromId = document.querySelector(".roundfromid");
+const roundToTd = document.querySelector(".roundtoid");
+const roundFromShotCode = document.querySelector(".roundfromshortcode");
+const roundToShotCode = document.querySelector(".roundtoshortcode");
+
+function fillInputRound() {
+   if (getstoredData.formIdInput) {
+      roundFrom.value = getstoredData.formIdInput;
+   }
+   if (getstoredData.toIdInput) {
+      roundTo.value = getstoredData.toIdInput;
+   }
+
+   if (getstoredData.fromId) {
+      roundFromId.textContent = getstoredData.fromId;
+   }
+
+   if (getstoredData.toId) {
+      roundToTd.textContent = getstoredData.toId;
+   }
+
+   if (getstoredData.fromShortName) {
+      roundFromShotCode.textContent = getstoredData.fromShortName;
+   }
+
+   if (getstoredData.toShortName) {
+      roundToShotCode.textContent = getstoredData.toShortName;
+   }
+
+   if (getstoredData.dateAsText) {
+      roundDepDate.value = getstoredData.dateAsText;
+   }
+   if (getstoredData.returnDateAsText) {
+      roundRetDate.value = getstoredData.returnDateAsText;
+   }
+   if (getstoredData.pax) {
+      roundPax.value = getstoredData.pax;
+   }
+}
+
+// fill input for multi-city;
+
+if (getstoredData.way === "multi-city") {
+   for (let i = 0; i < getstoredData.fromId.length; i++) {
+      document.querySelector(".multicity_data").innerHTML += `
+    <div class="emform">
+          <div class="eminputblock">
+          <label>From</label>
+            <div class="eminput_field">
+              <input
+                class="algolio_input multicityform"
+                type="text"
+                value="${getstoredData.formIdInput[i]}"
+              />
+              <p class="portid multicityformid">${getstoredData.fromId[i]}</p>
+              <p class="mcfromshortcode">${getstoredData.fromShortName[i]}</p>
+              <img
+                src="https://cdn.prod.website-files.com/6713759f858863c516dbaa19/6730586b420dae5eaf21e2eb_gps.png"
+                alt="GPS Icon"
+                style="cursor: pointer;"
+              />
+            </div>
+          </div>
+          <div class="eminputblock">
+          <label>To</label>
+            <div class="eminput_field">
+              <input
+                class="algolio_input multicityto"
+                type="text"
+                value="${getstoredData.toIdInput[i]}"
+              />
+              <p class="portid multicitytoid">${getstoredData.toId[i]}</p>
+              <p class="mctoshortcode">${getstoredData.toShortName[i]}</p>
+              <img
+                src="https://cdn.prod.website-files.com/6713759f858863c516dbaa19/6730586b420dae5eaf21e2eb_gps.png"
+                alt="GPS Icon"
+                style="cursor: pointer;"
+              />
+            </div>
+          </div>
+          <div class="eminputblock">
+          <label>Date</label>
+            <div class="eminput_field">
+              <input class="multicitydate" type="date" value="${getstoredData.dateAsText[i]}" />
+            </div>
+          </div>
+          <div class="eminputblock">
+          <label>PAX</label>
+            <div class="eminput_field">
+              <div class="empax_wrapper">
+                <div class="empax_minus">-</div>
+                <input class="expaxinput multicitypax" type="text" value="${getstoredData.pax[i]}"  readonly />
+                <div class="empax_plus">+</div>
+              </div>
+            </div>
+          </div>
+        </div>
+    `;
+   }
+}
+
+// reset multi_city data which is generated form session storage
+const resetBtn = document.querySelector(".reset");
+const removeData = document.querySelector(".multicity_data");
+const multiCityFormElement = document.querySelector(".mcity_none");
+if (getstoredData.way === "multi-city") {
+   multiCityFormElement.style.display = "none";
+} else {
+   multiCityFormElement.style.display = "block";
+   resetBtn.style.display = "none";
+}
+
+resetBtn.addEventListener("click", function () {
+   removeData.remove();
+   resetBtn.style.display = "none";
+   multiCityFormElement.style.display = "block";
+});
+
+// send data to session storage
+// âœ… Helper function for consistent and Safari-safe timestamp
+function getUnixTimestamp(dateStr, timeStr = "00:00:00") {
+   const isoString = `${dateStr}T${timeStr}`;
+   const date = new Date(isoString);
+   return Math.floor(date.getTime());
+}
+
+// grid view and list view functionality
+const gridView = document.querySelector(".grid_view");
+const listView = document.querySelector(".list_view");
+const contentWrapper = document.querySelector(".sr_main_right");
+const gridAndListView = document.querySelectorAll(".sr_exp_icon_box ");
+
+gridView.addEventListener("click", function () {
+   contentWrapper.classList.add("changeview");
+   contentWrapper.classList.remove("listview");
+});
+listView.addEventListener("click", function () {
+   contentWrapper.classList.remove("changeview");
+   contentWrapper.classList.add("listview");
+});
+
+gridAndListView.forEach((view) => {
+   view.addEventListener("click", function () {
+      gridAndListView.forEach((item) => {
+         item.classList.remove("activeview");
+      });
+      view.classList.add("activeview");
+   });
+});
+
+// code for broker mode
+const brokerModeRadio = document.querySelector(".broker_mode_radio");
+const glView = document.querySelector(".sr_exp_right");
+const requestBroker = document.querySelector(".request_br_mode");
+const brokerChange = document.querySelector(".item_reslt_wrapper");
+const mainChanger = document.querySelector(".sr_main_right");
+
+brokerModeRadio.addEventListener("click", function () {
+   glView.classList.toggle("hide_view");
+   requestBroker.classList.toggle("showbroker");
+   brokerChange.classList.toggle("broker_change");
+   mainChanger.classList.remove("changeview");
+   mainChanger.classList.add("listview");
+   document.querySelector(".grid_view").classList.remove("activeview");
+   document.querySelector(".list_view ").classList.add("activeview");
+   sessionStorage.removeItem("checkedItems");
+});
+
+// filter in mobile design
+document.querySelector(".new_filter").addEventListener("click", function () {
+   document
+      .querySelector(".sr_filter_block")
+      .classList.add("active_mobile_filter");
+   document.querySelector("body").classList.add("overflowfilter");
+});
+
+document.querySelector(".cross_img").addEventListener("click", function () {
+   document
+      .querySelector(".sr_filter_block")
+      .classList.remove("active_mobile_filter");
+   document.querySelector("body").classList.remove("overflowfilter");
+});
